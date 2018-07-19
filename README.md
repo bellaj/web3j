@@ -9,4 +9,5 @@ to get this code working you have to define your own credentialis in App.java fi
     	
 
 FuturesWeb3j : is the truffle project
+
 futures : is the java maven project
