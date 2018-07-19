@@ -7,3 +7,6 @@ to get this code working you have to define your own credentialis in App.java fi
 	Credentials credentials =
         WalletUtils.loadCredentials("your pwd","src/your wallet file.json");
     	
+
+FuturesWeb3j : is the truffle project
+futures : is the java maven project
