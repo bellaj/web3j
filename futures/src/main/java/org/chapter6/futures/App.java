@@ -89,7 +89,7 @@ public class App {
 
 
         input = new Scanner(System.in);
-        CFutures CFuture2 = null;
+        CFutures CFutureInstance = null;
         Scanner sc2 = new Scanner(System.in);
         String loadedCAddress;
         	
@@ -117,14 +117,14 @@ public class App {
               case 2:
                   System.out.println("Please provide the contract's address to load:");
                   loadedCAddress= sc2.nextLine();
-            	  CFuture2 = CFutures.load(loadedCAddress, web3j, credentials, CUSTOM_GAS_PRICE, GAS_LIMIT);
-  	              log.info("Contract loaded: " + CFuture2.getContractAddress());
+            	  CFutureInstance = CFutures.load(loadedCAddress, web3j, credentials, CUSTOM_GAS_PRICE, GAS_LIMIT);
+  	              log.info("Contract loaded: " + CFutureInstance.getContractAddress());
 
             	  break ;
               case 3:
-	    	     TransactionReceipt DepositReceipt=CFuture2.deposit(Price.multiply(Quantity)).send();
+	    	     TransactionReceipt DepositReceipt=CFutureInstance.deposit(Price.multiply(Quantity)).send();
 	    	     log.info("Transaction complete, view it at https://ropsten.etherscan.io/tx/" + DepositReceipt.getTransactionHash());
-	    	     for (CFutures.DepositEvEventResponse event : CFuture2.getDepositEvEvents(DepositReceipt)) {
+	    	     for (CFutures.DepositEvEventResponse event : CFutureInstance.getDepositEvEvents(DepositReceipt)) {
 	
 	    	            log.info("Deposit event detected:" + event.amount+" wei has ben deposited");
 	
@@ -133,22 +133,22 @@ public class App {
 	    	        }
 	    	     break;
               case 4:
-		          BigInteger  LastfuelPrice=CFuture2.fuelPriceUSD().send();
+		          BigInteger  LastfuelPrice=CFutureInstance.fuelPriceUSD().send();
 		          Integer fuelPriceUSD = LastfuelPrice.intValue();
 		          log.info("Last fuel Price Fuel price According to the Oracle is: " + fuelPriceUSD);
 		          break;
     	  
               case 5:
 		    	  BigInteger txcost = Convert.toWei("0.01", Convert.Unit.ETHER).toBigInteger();
-		    	  TransactionReceipt UpdateReceipt=CFuture2.updateprice(txcost).send();
-		    	  for (CFutures.NewDieselPriceEventResponse event : CFuture2.getNewDieselPriceEvents(UpdateReceipt)) {
+		    	  TransactionReceipt UpdateReceipt=CFutureInstance.updateprice(txcost).send();
+		    	  for (CFutures.NewDieselPriceEventResponse event : CFutureInstance.getNewDieselPriceEvents(UpdateReceipt)) {
 		
 		    		  log.info("The oil price has been updated:" + event.price);
 		    	  }
 		    	  break;
 		    	  
     		  case 6:
-    			  BigInteger  Offset=CFuture2.offset().send();
+    			  BigInteger  Offset=CFutureInstance.offset().send();
     			  log.info("your offset is "+Offset.intValue());
           		break;
     	      default:
@@ -157,7 +157,7 @@ public class App {
 
             }
   
-       /* EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, CFuture2.getContractAddress().substring(2));
+       /* EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, CFutureInstance.getContractAddress().substring(2));
         web3j.ethLogObservable(filter).subscribe(Clog -> {
                   
         	log.info("contract log"+ Clog.toString());
